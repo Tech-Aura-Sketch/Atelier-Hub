@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Atelier Hub — Discovery Prototype</title>
+<style>
+:root{--bg:#f7f1e9;--card:#fffdf9;--ink:#292b28;--muted:#77736c;--line:#e6ddd2;--teal:#2f8d83;--coral:#e98672;--sage:#dcece6;--sand:#ead6c6;--shadow:0 14px 35px rgba(48,42,35,.10)}
+*{box-sizing:border-box}html{scroll-behavior:auto;overflow-anchor:none}body{margin:0;overflow-anchor:none;background:#e9e3dc;color:var(--ink);font-family:Inter,system-ui,-apple-system,sans-serif}.app{width:min(430px,100vw);min-height:100vh;min-height:100dvh;margin:auto;background:var(--bg);overflow:visible}.screen{display:none;min-height:100vh;min-height:100dvh;padding:22px 18px 112px;scroll-margin-top:0}.screen.active{display:block}.serif{font-family:Georgia,serif}.logo{font:700 27px Georgia,serif;letter-spacing:-.8px}.muted{color:var(--muted)}button,input{font:inherit}button{cursor:pointer}.hero{text-align:center;padding:62px 4px 20px}.spark{width:78px;height:78px;border-radius:27px;background:var(--sage);display:grid;place-items:center;margin:0 auto 22px;font-size:35px;color:var(--teal);box-shadow:var(--shadow)}.tag{font-size:14px;color:var(--muted);line-height:1.55}.field{text-align:left;margin-top:15px}.field label{font-size:12px;font-weight:800;display:block;margin-bottom:6px}.field input{width:100%;border:1px solid var(--line);background:var(--card);padding:14px;border-radius:15px;outline:0}.field input:focus,.field select:focus{border-color:var(--teal)}.field select{width:100%;border:1px solid var(--line);background:var(--card);padding:14px;border-radius:15px;outline:0}.hint{font-size:11px;color:var(--muted);line-height:1.45;text-align:left;margin-top:7px}.gps{border:0;background:none;color:var(--teal);font-weight:800;font-size:12px;margin-top:8px}.primary{border:0;background:var(--teal);color:white;border-radius:15px;padding:15px 18px;font-weight:800;width:100%;margin-top:22px;box-shadow:0 9px 20px rgba(47,141,131,.2)}.loader{position:fixed;inset:0;background:var(--bg);z-index:20;display:none;align-items:center;justify-content:center;text-align:center;padding:30px}.loader.show{display:flex}.loader-inner{max-width:320px}.loader-mark{font-size:42px;color:var(--teal);margin-bottom:18px}.dots span{display:inline-block;width:6px;height:6px;background:var(--coral);border-radius:50%;margin:15px 3px 0;animation:p .8s infinite alternate}.dots span:nth-child(2){animation-delay:.2s}.dots span:nth-child(3){animation-delay:.4s}@keyframes p{to{transform:translateY(-5px);opacity:.35}}/* richer onboarding */
+.s1{position:relative;overflow:hidden;background:
+radial-gradient(circle at 12% 15%,rgba(233,134,114,.22),transparent 28%),
+radial-gradient(circle at 92% 22%,rgba(47,141,131,.20),transparent 30%),
+linear-gradient(145deg,#fbf6ef,#f2e8dc)}
+.s1:before,.s1:after{content:"";position:absolute;border:1px solid rgba(47,141,131,.20);border-radius:50%;pointer-events:none}
+.s1:before{width:310px;height:310px;right:-190px;top:-105px}
+.s1:after{width:260px;height:260px;left:-185px;bottom:40px}
+.intro-art{height:225px;position:relative;margin:-22px -18px 0;overflow:hidden}
+.intro-orb{position:absolute;border-radius:50%;filter:blur(.1px)}
+.orb1{width:170px;height:170px;background:#e8c8b8;left:-38px;top:5px}
+.orb2{width:145px;height:145px;background:#bcd8d1;right:-25px;top:35px}
+.orb3{width:92px;height:92px;background:#ead5a9;left:145px;top:82px}
+.intro-note{position:absolute;background:#fffdf9d9;border:1px solid rgba(255,255,255,.8);backdrop-filter:blur(6px);border-radius:15px;padding:10px 12px;box-shadow:var(--shadow);font-size:10px;font-weight:800}
+.note1{left:18px;top:35px;transform:rotate(-5deg)}.note2{right:18px;top:100px;transform:rotate(5deg)}.note3{left:126px;top:25px;transform:rotate(2deg)}
+.s1-content{position:relative;z-index:2;background:linear-gradient(180deg,rgba(247,241,233,.05),rgba(247,241,233,.96) 14%);margin:0 -18px;padding:10px 22px 30px;border-radius:35px 35px 0 0}
+.s1-content .brandline{display:flex;align-items:center;gap:9px}.brand-dot{width:31px;height:31px;border-radius:10px;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:900}
+.s1-content .field input{background:#fffefa}
+.avatar{width:39px;height:39px;border-radius:50%;background:var(--sand);display:grid;place-items:center;font-weight:800}.location{display:flex;justify-content:space-between;align-items:end}.location h1{font:700 27px Georgia,serif;margin:3px 0}.pin{color:var(--teal);font-size:12px;font-weight:800}.chips{display:flex;gap:8px;overflow:auto;padding:13px 0 3px}.chip{border:1px solid var(--line);background:var(--card);border-radius:20px;padding:8px 12px;white-space:nowrap;font-size:11px}.chip.active{background:var(--sage);color:var(--teal);border-color:#c8ded8;font-weight:800}.hero-card{margin-top:18px;border-radius:25px;min-height:245px;padding:21px;display:flex;flex-direction:column;justify-content:end;background:linear-gradient(145deg,#dbc1b2 0%,#ead9c9 48%,#bfd8d0 100%);box-shadow:var(--shadow);position:relative;overflow:hidden}.hero-card:before{content:"";position:absolute;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.28);right:-45px;top:-45px}.eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;font-weight:900}.hero-card h2{font:700 31px Georgia,serif;margin:7px 0}.hero-card p{max-width:270px;font-size:12px;line-height:1.45}.ghost{border:0;background:#fffdf9dd;border-radius:12px;padding:10px 13px;font-weight:800;width:max-content}.sec-head{display:flex;justify-content:space-between;align-items:end;margin:28px 0 12px}.sec-head h2{font:700 22px Georgia,serif;margin:0}.see{color:var(--teal);font-size:11px;font-weight:800}.scroll-row{display:flex;gap:12px;overflow:auto;margin-right:-18px;padding-right:18px}.creator{min-width:170px;background:var(--card);border:1px solid var(--line);border-radius:19px;padding:10px}.creator-pic{height:150px;border-radius:14px;margin-bottom:10px;background:linear-gradient(145deg,#d8b8a9,#c6dad4)}.creator:nth-child(2) .creator-pic{background:linear-gradient(145deg,#d6c4aa,#d2b9c2)}.creator:nth-child(3) .creator-pic{background:linear-gradient(145deg,#bfcfc6,#e1c4b8)}.creator{position:relative}.save{position:absolute;right:15px;bottom:11px;border:0;background:#fffdf9e8;border-radius:50%;width:28px;height:28px;font-size:16px;color:var(--coral)}.creator h3{font-size:14px;margin:0 0 4px}.creator p{font-size:11px;color:var(--muted);margin:0 0 6px}.rating{font-size:11px;font-weight:900;color:#ad725f}.peek{min-width:120px;border-radius:19px;background:var(--sage);padding:17px;display:flex;align-items:end;font:700 17px Georgia,serif}.afford{border-radius:22px;background:#f1ddd1;padding:20px;margin-top:13px}.afford h2{font:700 23px Georgia,serif;margin:5px 0}.afford p{font-size:12px;line-height:1.45}.mini{font-size:10px;text-transform:uppercase;letter-spacing:1.2px;font-weight:900;color:#9c6656}.work{min-width:145px;height:170px;border-radius:18px;background:#d9c0b6;position:relative}.work:nth-child(2){background:#c5d9d2}.work:nth-child(3){background:#dfccb1}.work span{position:absolute;bottom:10px;left:10px;background:#fffdf9dd;border-radius:10px;padding:7px 9px;font-size:10px;font-weight:800}.list-head{display:flex;justify-content:space-between;align-items:center}.back{border:0;background:none;color:var(--muted);padding:0;font-size:13px}.cards{display:grid;gap:12px;margin-top:14px}.artist{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:11px;display:grid;grid-template-columns:76px 1fr auto;gap:11px;align-items:center}.artist-pic{width:76px;height:76px;border-radius:14px;background:#d5c0b5}.artist:nth-child(2) .artist-pic{background:#c8d8d1}.artist h3{font-size:14px;margin:0 0 5px}.artist p{font-size:11px;color:var(--muted);margin:2px 0}.profile-cover{height:155px;border-radius:23px;background:linear-gradient(135deg,#dfc6b6,#c5ddd6);position:relative;margin-top:15px;margin-bottom:50px}.profile-pic{position:absolute;bottom:-42px;left:18px;width:92px;height:92px;border-radius:50%;border:5px solid var(--bg);background:#b99b8d}.profile h1{font:700 28px Georgia,serif;margin:0}.stats{display:flex;gap:8px;margin-top:10px}.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:9px;font-size:11px}.gallery{display:grid;grid-template-columns:1fr 1fr;gap:9px}.gallery div{height:145px;border-radius:15px;background:#d7b9ad}.gallery div:nth-child(2){background:#c5d8d1}.gallery div:nth-child(3){background:#dec7a8}.gallery div:nth-child(4){background:#cbbec7}.pricebox{background:var(--card);border:1px solid var(--line);border-radius:17px;overflow:hidden}.price-row{display:flex;justify-content:space-between;padding:13px;border-bottom:1px solid var(--line);font-size:12px}.price-row:last-child{border:0}.price{font-weight:900}.sticky{position:fixed;bottom:13px;left:50%;transform:translateX(-50%);width:min(390px,calc(100vw - 36px));z-index:4}.calendar{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;margin-top:15px}.month{display:flex;justify-content:space-between;font-weight:800;font-size:13px;margin-bottom:12px}.days{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}.day{border:0;background:none;aspect-ratio:1;border-radius:9px;font-size:11px}.day.available{background:var(--sage)}.day.selected{background:var(--teal);color:white}.times{display:flex;gap:7px;overflow:auto;margin-top:10px}.time{border:1px solid var(--line);background:var(--card);border-radius:11px;padding:9px 11px;white-space:nowrap;font-size:11px}.time.selected{background:var(--teal);color:white}.pay{display:grid;gap:8px;margin-top:14px}.pay label{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:12px;font-size:12px}.success{text-align:center;padding-top:85px}.check{width:76px;height:76px;border-radius:50%;background:var(--sage);color:var(--teal);display:grid;place-items:center;font-size:36px;margin:auto}.product-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.product{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:9px}.product-pic{height:140px;border-radius:12px;background:#dcc9b6}.product:nth-child(2) .product-pic{background:#d7c0c8}.product:nth-child(3) .product-pic{background:#c7d8d0}.product:nth-child(4) .product-pic{background:#e2d0b7}.product h3{font-size:12px;margin:9px 0 3px}.product p{font-size:10px;color:var(--muted);margin:0}.stock{font-size:9px;font-weight:900;margin-top:7px;color:var(--teal)}.product button{width:100%;margin-top:7px;border:1px solid var(--line);background:var(--card);border-radius:9px;padding:8px;font-size:9px}.product button:last-child{background:var(--teal);color:#fff;border-color:var(--teal)}
+
+/* Final interaction and navigation layer */
+.screen{padding-bottom:112px}.bottom-nav{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);width:min(398px,calc(100vw - 24px));display:none;grid-template-columns:repeat(5,1fr);gap:5px;padding:7px;background:rgba(255,253,249,.96);border:1px solid #ded4c8;border-radius:23px;box-shadow:0 10px 35px rgba(48,42,35,.2);z-index:10;backdrop-filter:blur(14px)}.bottom-nav.visible{display:grid}.nav-btn{border:0;background:transparent;border-radius:15px;padding:8px 2px 7px;font-size:9px;font-weight:800;color:#77736c;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0}.nav-btn .nav-icon{font-size:19px;line-height:1}.nav-btn.active{background:#dcece6;color:#236f67;box-shadow:inset 0 0 0 1px #c2ddd5}.nav-btn.glam .nav-icon{color:#d87963}.nav-btn.workspace{background:#f1ddd1;color:#895746}.owner-header{background:linear-gradient(135deg,#e5cdbd,#dcece6);padding:20px;border-radius:23px;margin:14px 0}.owner-header h1{font:700 27px Georgia,serif;margin:7px 0}.owner-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.owner-metric{background:var(--card);border:1px solid var(--line);padding:14px;border-radius:17px}.owner-metric span{font-size:11px;color:var(--muted);display:block}.owner-metric strong{font:700 24px Georgia,serif;display:block;margin-top:4px}.owner-action{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:13px;margin:10px 0}.owner-action h3{font-size:14px;margin-bottom:4px}.owner-action p{font-size:11px;line-height:1.45;color:var(--muted);margin-bottom:10px}.owner-actions{display:flex;gap:8px}.owner-actions button,.small-btn{border:1px solid var(--line);background:#fff;border-radius:11px;padding:9px 11px;font-size:11px;font-weight:800}.owner-actions .accept{background:var(--teal);border-color:var(--teal);color:white}.pill{display:inline-block;border-radius:99px;background:var(--sage);color:#236f67;padding:5px 8px;font-size:10px;font-weight:800}.review-box{margin-top:16px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:15px}.stars{display:flex;gap:5px;margin:8px 0}.star-btn{border:0;background:transparent;font-size:26px;color:#c9c1b7;padding:0}.star-btn.on{color:#e5a544}.review-box textarea,.modal input,.modal textarea,.modal select{width:100%;border:1px solid var(--line);background:#fffdf9;border-radius:12px;padding:12px;font:inherit;font-size:13px;margin-top:8px}.review-box textarea{min-height:76px;resize:vertical}.modal-backdrop{position:fixed;inset:0;background:rgba(35,34,30,.48);z-index:30;display:none;align-items:flex-end;justify-content:center;padding:12px}.modal-backdrop.show{display:flex}.modal{width:min(430px,100%);background:var(--bg);border-radius:25px 25px 20px 20px;padding:22px;max-height:88vh;overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,.22)}.modal h2{font:700 25px Georgia,serif;margin:0 0 6px}.modal p{font-size:12px;color:var(--muted);line-height:1.5}.modal .primary{margin-top:14px}.modal .field{margin-top:10px}.modal .close{float:right;border:0;background:#e8e0d6;border-radius:50%;width:32px;height:32px;font-size:18px}.form-error{font-size:11px;color:#b64b43;margin-top:6px;display:none}.form-error.show{display:block}.status-line{font-size:11px;color:var(--muted);line-height:1.5}.product button{display:block;width:100%;border:1px solid var(--line);background:#fffdf9;border-radius:10px;padding:9px;margin-top:7px;font-size:10px;font-weight:800}.product button.delivery{background:var(--teal);border-color:var(--teal);color:white}.product button:disabled{opacity:.4;cursor:not-allowed}.top .owner-switch{border:0;border-radius:12px;background:#f1ddd1;padding:8px 10px;font-size:10px;font-weight:900;color:#895746}.empty-state{padding:18px;text-align:center;color:var(--muted);background:var(--card);border:1px dashed var(--line);border-radius:15px;font-size:12px}.creator:focus-visible,.artist:focus-visible,button:focus-visible{outline:3px solid #e98672;outline-offset:2px}
+
+/* Unified screen layout fix: every section starts at the top of the app. */
+html {
+  margin: 0 !important;
+  padding: 0 !important;
+  scroll-behavior: auto !important;
+  overflow-x: hidden !important;
+  overflow-anchor: none;
+}
+body {
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  min-height: 100dvh;
+  height: auto !important;
+  overflow-x: hidden !important;
+  overflow-anchor: none;
+}
+.app {
+  display: block !important;
+  position: relative !important;
+  inset: auto !important;
+  top: auto !important;
+  width: min(430px, 100%);
+  min-height: 100dvh;
+  height: auto !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  transform: none !important;
+}
+.screen,
+.screen.active,
+.screen#s2,
+.screen#s2.active,
+.screen#s3,
+.screen#s3.active,
+.screen#s4,
+.screen#s4.active {
+  box-sizing: border-box !important;
+  position: relative !important;
+  inset: auto !important;
+  top: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  left: auto !important;
+  align-self: stretch !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  transform: none !important;
+  scroll-margin-top: 0 !important;
+}
+.screen { display: none; padding: 22px 18px 112px; }
+.screen.active { display: block !important; }
+.screen#s1.active { min-height: 100dvh !important; }
+.screen#s2.active { padding: 10px 18px 120px !important; }
+.screen#s2 .top { margin-top: 0 !important; padding-top: 0 !important; }
+@media (max-width: 600px) {
+  .app { width: 100%; }
+  .screen#s2.active { padding-top: 8px !important; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="loader" id="loader"><div class="loader-inner"><div class="loader-mark">✦</div><div class="logo">Atelier Hub</div><p id="loadMsg" class="tag">Finding talented creators near you…</p><div class="dots"><span></span><span></span><span></span></div></div></div>
+
+<section id="s1" class="screen active s1">
+<div class="intro-art"><div class="intro-orb orb1"></div><div class="intro-orb orb2"></div><div class="intro-orb orb3"></div><div class="intro-note note1">✦ Local talent</div><div class="intro-note note2">♡ Hidden gems</div><div class="intro-note note3">₹ Friendly prices</div></div>
+<div class="s1-content"><div class="brandline"><div class="brand-dot">✦</div><div class="logo">Atelier Hub</div></div><p class="tag">Your neighborhood stylists and designers united.</p>
+<div class="field"><label>Name</label><input id="name" placeholder="What should we call you?"></div>
+<div class="field"><label>Age <span class="muted" style="font-weight:400">(optional)</span></label><input placeholder="You can skip this" type="number"></div>
+<div class="field"><label>PIN code</label><input id="pin" maxlength="6" inputmode="numeric" placeholder="e.g. 411001"></div>
+<div class="hint">We use this only to find professionals closest to your home and help keep your travel expenses low.</div>
+<button class="gps" onclick="useLocationHint()">⌖ Use my location</button><button class="primary" onclick="start()">Explore local artists ✦</button><button class="owner-switch" style="width:100%;margin-top:10px" onclick="openWorkspace()">I’m a creator / shop owner →</button></div>
+</section>
+
+<section id="s2" class="screen">
+<div class="top"><div class="logo" style="font-size:23px">Atelier Hub</div><button class="owner-switch" onclick="openWorkspace()">Creator space ↗</button><div class="avatar" id="avatar">J</div></div>
+<div class="location"><div><div class="muted" style="font-size:12px">Hi, <span id="hello">there</span> 👋</div><h1>What's calling your style?</h1></div><div class="pin" id="pinShow">411001</div></div>
+<div class="chips"><button class="chip active">Nearby</button><button class="chip">Top rated</button><button class="chip">Budget friendly</button><button class="chip">New this week</button></div>
+<div class="hero-card"><div class="eyebrow">✦ Curated for your neighborhood</div><h2>Something beautiful is waiting nearby.</h2><p>Discover talented local creators, honest prices and little finds you might not have searched for.</p><button class="ghost" onclick="artists('Featured creators')">Start exploring →</button></div>
+<div class="sec-head"><h2>Find your kind of creator</h2><span class="see">See all</span></div>
+<div class="scroll-row">
+<div class="creator" onclick="artists('Fashion Designers')"><div class="creator-pic"></div><h3>Fashion Designers</h3><p>Custom wear & stitching</p><span class="rating">Explore →</span></div>
+<div class="creator" onclick="artists('Makeup Artists')"><div class="creator-pic"></div><h3>Makeup Artists</h3><p>Everyday to occasions</p><span class="rating">Explore →</span></div>
+<div class="creator" onclick="artists('Hairstylists')"><div class="creator-pic"></div><h3>Hairstylists</h3><p>Haircuts & styling</p><span class="rating">Explore →</span></div>
+<div class="creator" onclick="artists('Nail Artists')"><div class="creator-pic"></div><h3>Nail Artists</h3><p>Nails & care</p><span class="rating">Explore →</span></div>
+<div class="peek" onclick="products()">GLAM<br>FIND →</div>
+</div>
+<div class="sec-head"><h2>✨ Loved around you</h2><span class="see">More</span></div>
+<div class="scroll-row">
+<div class="creator" onclick="profile('Maya Studio')"><div class="creator-pic"></div><h3>Maya Studio</h3><p>Makeup · 1.8 km</p><span class="rating">★ 4.9 · ₹300+</span><button class="save" onclick="event.stopPropagation();save(this)">♡</button></div>
+<div class="creator" onclick="profile('Aarohi Designs')"><div class="creator-pic"></div><h3>Aarohi Designs</h3><p>Fashion · 2.4 km</p><span class="rating">★ 4.8 · ₹300+</span><button class="save" onclick="event.stopPropagation();save(this)">♡</button></div>
+<div class="creator"><div class="creator-pic"></div><h3>Sneha Style Studio</h3><p>Beauty · 2.1 km</p><span class="rating">★ 4.8 · ₹250+</span></div>
+</div>
+<div class="sec-head"><h2>✦ Nearby inspiration</h2><span class="see">See all</span></div>
+<div class="afford"><div class="mini">Trending around you</div><h2>Soft-glam is having a moment.</h2><p>Discover local makeup artists, hair stylists and beauty creators who can bring this look to life.</p><button class="ghost" onclick="artists('Soft-glam creators')">Find the look →</button></div>
+<div class="sec-head"><h2>↺ Continue exploring</h2><span class="see">Saved & viewed</span></div>
+<div class="scroll-row"><div class="creator" onclick="profile('Deepa Beauty Parlour')"><div class="creator-pic"></div><h3>Deepa Beauty Parlour</h3><p>Recently viewed · 1.2 km</p><span class="rating">Open profile →</span></div><div class="creator" onclick="profile('Aarohi Designs')"><div class="creator-pic"></div><h3>Aarohi Designs</h3><p>Recently viewed · 2.4 km</p><span class="rating">Open profile →</span></div></div>
+<div class="afford"><div class="mini">Made for real budgets</div><h2>Beautiful, without the big price tag.</h2><p>Meet local creators with transparent starting prices, so you can explore first and decide comfortably.</p></div>
+<div class="sec-head"><h2>👀 Hidden gems near you</h2><span class="see">Discover</span></div>
+<div class="scroll-row"><div class="work"><span>Fresh mehndi designs</span></div><div class="work"><span>Bridal hair ideas</span></div><div class="work"><span>New blouse designs</span></div></div>
+<div class="sec-head"><h2>🧵 Fresh work this week</h2><span class="see">Explore</span></div>
+<div class="scroll-row"><div class="work" style="background:#d7c0b7"><span>By local creators</span></div><div class="work" style="background:#c4d9d2"><span>Under ₹1000</span></div><div class="work" style="background:#dfccb1"><span>Trending nearby</span></div></div>
+</section>
+
+<section id="s3" class="screen"><button class="back" onclick="show('s2')">← Back to discovery</button><div class="list-head"><div><h2 class="serif" id="categoryTitle" style="font-size:27px;margin:18px 0 3px">Local creators</h2><small class="muted">Near 411001 · sorted by distance & rating</small></div><button class="chip">Filter</button></div><div class="chips"><button class="chip active">Within 5 km</button><button class="chip">★ 4.5+</button><button class="chip">Lowest price</button></div><div class="cards">
+<div class="artist" onclick="profile('Deepa Beauty Parlour')"><div class="artist-pic"></div><div><h3>Deepa Beauty Parlour</h3><p>Beauty & styling · 1.2 km</p><p>Starting ₹300</p></div><div class="rating">★ 4.9</div></div>
+<div class="artist" onclick="profile('Sneha Style Studio')"><div class="artist-pic"></div><div><h3>Sneha Style Studio</h3><p>Beauty · 2.1 km</p><p>Starting ₹250</p></div><div class="rating">★ 4.8</div></div>
+<div class="artist" onclick="profile('Aarohi Designs')"><div class="artist-pic"></div><div><h3>Aarohi Designs</h3><p>Custom wear · 2.4 km</p><p>Starting ₹300</p></div><div class="rating">★ 4.8</div></div>
+<div class="artist"><div class="artist-pic"></div><div><h3>Riya's Nail Corner</h3><p>Nails · 3.1 km</p><p>Starting ₹199</p></div><div class="rating">★ 4.7</div></div>
+</div></section>
+
+<section id="s4" class="screen profile"><button class="back" onclick="show('s3')">← Back to creators</button><div class="profile-cover"><div class="profile-pic"></div></div><h1 id="artistName">Deepa Beauty Parlour</h1><div class="muted" id="artistMeta" style="font-size:12px;margin-top:5px">Beauty & styling · 1.2 km away</div><div class="stats"><div class="stat">★ <b>4.9</b> · 45 reviews</div><div class="stat">Open today</div><div class="stat">Local creator</div></div>
+<div class="sec-head"><h2>See their work</h2></div><div class="gallery"><div></div><div></div><div></div><div></div></div>
+<div class="sec-head"><h2>Services & prices</h2></div><div class="pricebox"><div class="price-row"><span>Simple suit stitching</span><span class="price">₹300</span></div><div class="price-row"><span>Blouse alteration</span><span class="price">₹80</span></div><div class="price-row"><span>Party makeup</span><span class="price">₹900</span></div><div class="price-row"><span>Hair styling</span><span class="price">₹350</span></div></div>
+<div class="review-box"><div class="mini">Share your experience</div><h2 style="font:700 22px Georgia,serif;margin:6px 0">Rate this creator’s work</h2><p class="status-line">Choose a star rating and leave a helpful, respectful review.</p><div class="stars" id="reviewStars"><button class="star-btn" type="button" onclick="setRating(1)">★</button><button class="star-btn" type="button" onclick="setRating(2)">★</button><button class="star-btn" type="button" onclick="setRating(3)">★</button><button class="star-btn" type="button" onclick="setRating(4)">★</button><button class="star-btn" type="button" onclick="setRating(5)">★</button></div><textarea id="reviewText" placeholder="What did you like about their work? (optional)"></textarea><button class="ghost" style="margin-top:10px" onclick="submitReview()">Submit rating</button><div id="reviewMessage" class="status-line" style="margin-top:8px"></div><div id="reviewList"></div></div><div class="afford" style="margin-top:14px"><div class="mini">Also recommended by this creator</div><h2>Glow Face Serum · ₹499</h2><p>Available 2.0 km away in Glam Find.</p><button class="ghost" onclick="products()">See in Glam Find →</button></div><p class="tag">Starting prices are shown clearly. Final pricing can be confirmed with the creator based on your exact requirements.</p><div class="sticky"><button class="primary" onclick="booking()">Book an appointment</button></div></section>
+
+<section id="s5" class="screen"><button class="back" onclick="show('s4')">← Back</button><h2 class="serif" style="font-size:27px;margin:18px 0 4px">Booking with <span id="bookingArtist">Deepa Beauty Parlour</span></h2><p class="tag">Choose your service, date and a time that works for you.</p><div class="field"><label>Service</label><select id="bookingService" onchange="updateService()"><option value="900|Party makeup">Party makeup — ₹900</option><option value="300|Simple suit stitching">Simple suit stitching — ₹300</option><option value="80|Blouse alteration">Blouse alteration — ₹80</option><option value="350|Hair styling">Hair styling — ₹350</option></select></div><div class="calendar"><div class="month"><span>October 2026</span><span style="color:var(--teal)">● Available</span></div><div class="days" id="days"></div></div><div class="times"><button class="time selected">10:00 AM</button><button class="time">12:30 PM</button><button class="time">3:00 PM</button><button class="time">5:30 PM</button></div><div class="pay"><label><input type="radio" name="pay" value="Pay after service" checked> Pay after service (COD)</label><label><input type="radio" name="pay" value="Pay now"> Pay now — UPI / Google Pay / Card</label></div><button class="primary" onclick="confirmBooking()">Request appointment</button></section>
+
+<section id="s6" class="screen"><div class="success"><div class="check">✓</div><h1 class="serif">Appointment booked!</h1><p class="tag">Your request for <b id="successArtist">Deepa Beauty Parlour</b> has been saved.</p><p id="successDetails" class="status-line" style="margin:10px 0 18px"></p><p class="status-line">The creator must accept it before it is confirmed.</p><button class="primary" onclick="show('s2')">Keep exploring</button></div></section>
+
+<section id="s7" class="screen"><button class="back" onclick="show('s2')">← Back to discovery</button><div style="margin-top:15px"><div class="logo">Glam Find</div><p class="tag">Little things that make you feel a little more you.</p></div><div class="chips"><button class="chip active">All</button><button class="chip">Jewellery</button><button class="chip">Makeup</button><button class="chip">Skincare</button></div><div class="product-grid" style="margin-top:14px">
+<div class="product"><div class="product-pic"></div><h3>Everyday Gold Hoops <button class="save" style="position:static;float:right" onclick="saveProduct('Everyday Gold Hoops',this)">♡</button></h3><p>₹299 · 1.4 km</p><div class="stock">● Available</div><button onclick="openOrder('Everyday Gold Hoops',299,'pickup')">Reserve for pickup</button><button class="delivery" onclick="openOrder('Everyday Gold Hoops',299,'delivery')">Same-day delivery</button></div>
+<div class="product"><div class="product-pic"></div><h3>Glow Face Serum <button class="save" style="position:static;float:right" onclick="saveProduct('Glow Face Serum',this)">♡</button></h3><p>₹499 · 2.0 km</p><div class="stock">● Available</div><button onclick="openOrder('Glow Face Serum',499,'pickup')">Reserve for pickup</button><button class="delivery" onclick="openOrder('Glow Face Serum',499,'delivery')">Same-day delivery</button></div>
+<div class="product"><div class="product-pic"></div><h3>Soft Blush Palette</h3><p>₹399 · 1.8 km</p><div class="stock" style="color:#ad675d">● Currently unavailable</div><button disabled>Reserve unavailable</button><button disabled>Delivery unavailable</button></div>
+<div class="product"><div class="product-pic"></div><h3>Pearl Hair Pins</h3><p>₹180 · 900 m</p><div class="stock">● Available</div><button onclick="openOrder('Pearl Hair Pins',180,'pickup')">Reserve for pickup</button><button class="delivery" onclick="openOrder('Pearl Hair Pins',180,'delivery')">Same-day delivery</button></div>
+</div><div class="afford"><div class="mini">Local delivery</div><h2>At your door, without the big delivery bill.</h2><p>The shop sets the local delivery fee. Show the exact fee before the customer confirms.</p></div></section>
+
+<section id="s8" class="screen"><div style="display:flex;justify-content:space-between;align-items:center"><button class="back" onclick="show('s2')">← Back to discovery</button><button class="small-btn" onclick="creatorLogout()">Log out</button></div><div class="owner-header"><div class="pill">✦ CREATOR WORKSPACE</div><h1>Welcome to your studio.</h1><p class="tag">Manage requests, keep your portfolio fresh and make your work easier to discover.</p><div class="field"><label>Studio / creator name</label><input id="ownerName" value="Deepa Beauty Parlour" placeholder="Your business name"></div><button class="primary" onclick="saveOwnerProfile()">Save studio profile</button></div>
+<div class="owner-grid"><div class="owner-metric"><span>New requests</span><strong id="ownerRequestCount">0</strong></div><div class="owner-metric"><span>Confirmed bookings</span><strong id="ownerBookingCount">0</strong></div><div class="owner-metric"><span>Profile views (demo)</span><strong>312</strong></div><div class="owner-metric"><span>Customer rating</span><strong id="ownerRating">4.9 ★</strong></div></div>
+<div class="sec-head"><h2>Appointment requests</h2><span class="see">Live in this browser</span></div><div id="ownerRequests"><div class="empty-state">No new requests yet. Customer bookings will appear here when both sides are opened on the same browser/device.</div></div>
+<div class="sec-head"><h2>Confirmed schedule</h2></div><div id="ownerSchedule"><div class="empty-state">Your accepted bookings will appear here.</div></div>
+<div class="sec-head"><h2>Glam Find orders</h2></div><div id="ownerOrderRequests"><div class="empty-state">No Glam Find orders yet.</div></div><div class="sec-head"><h2>Studio quick setup</h2></div><div class="owner-action"><h3>📸 Portfolio & services</h3><p>Keep examples of your work and service prices ready for customers. This demo uses sample gallery tiles; real uploads need a connected storage service.</p><button class="small-btn" onclick="alert('Portfolio upload is a next-step feature. This demo uses sample work tiles.')">Manage portfolio</button></div><div class="owner-action"><h3>🛍 Glam Find inventory</h3><p>Set product stock, pickup availability and local delivery fees.</p><label class="status-line">Same-day delivery fee (₹)</label><input id="deliveryFee" type="number" min="0" value="30"><button class="small-btn" style="margin-top:8px" onclick="saveDeliveryFee()">Save delivery fee</button><p id="feeMessage" class="status-line"></p></div><div class="owner-action"><h3>📍 Service area</h3><p>PIN code and travel radius help customers find nearby services. Avoid showing a private home address publicly.</p><input id="ownerPin" maxlength="6" inputmode="numeric" placeholder="Business PIN code"><button class="small-btn" style="margin-top:8px" onclick="saveOwnerPin()">Save service area</button></div>
+</section>
+<section id="s11" class="screen">
+ <button class="back" onclick="show('s2')">← Back to discovery</button>
+ <div class="owner-header" style="margin-top:18px">
+  <div class="pill">✦ CREATOR ACCESS</div>
+  <h1 id="creatorAccessTitle">Creator sign in</h1>
+  <p class="tag" id="creatorAccessHelp">Enter your creator PIN to open bookings and order requests.</p>
+  <div class="field" id="creatorNameField"><label>Studio / creator name</label><input id="creatorLoginName" placeholder="Your studio name" autocomplete="organization"></div>
+  <div class="field"><label>6-digit creator PIN</label><input id="creatorLoginPin" type="password" inputmode="numeric" maxlength="6" placeholder="Enter 6-digit PIN" autocomplete="current-password"></div>
+  <div class="field" id="creatorPinConfirmField"><label>Confirm creator PIN</label><input id="creatorLoginPinConfirm" type="password" inputmode="numeric" maxlength="6" placeholder="Enter PIN again" autocomplete="new-password"></div>
+  <p id="creatorAccessError" class="form-error" role="alert"></p>
+  <button id="creatorAccessButton" class="primary" onclick="creatorAccess()">Sign in to Creator Space</button>
+  <p class="status-line" style="margin-top:12px">Prototype note: this PIN gate separates the screens in this demo. A real launch needs secure server-side accounts and access control.</p>
+ </div>
+</section>
+<section id="s9" class="screen"><button class="back" onclick="show('s2')">← Back to discovery</button><div class="logo" style="margin-top:15px">Your saved finds</div><p class="tag">Creators and products you want to revisit.</p><div id="savedList" style="margin-top:16px"><div class="empty-state">Tap the ♡ on a creator to save them here.</div></div></section>
+<section id="s10" class="screen"><button class="back" onclick="show('s2')">← Back to discovery</button><div class="logo" style="margin-top:15px">Your bookings</div><p class="tag">Appointment requests and their latest status.</p><div id="customerBookings" style="margin-top:16px"><div class="empty-state">You haven't requested an appointment yet.</div></div></section>
+<nav class="bottom-nav" id="bottomNav" aria-label="Main navigation"><button class="nav-btn active" data-page="s2" onclick="navTo('s2',this)"><span class="nav-icon">⌂</span>Discover</button><button class="nav-btn" data-page="s9" onclick="navTo('s9',this)"><span class="nav-icon">♡</span>Saved</button><button class="nav-btn glam" data-page="s7" onclick="navTo('s7',this)"><span class="nav-icon">✦</span>Glam Find</button><button class="nav-btn" data-page="s10" onclick="navTo('s10',this)"><span class="nav-icon">▣</span>Bookings</button><button class="nav-btn workspace" data-page="s8" onclick="openWorkspace()"><span class="nav-icon">✂</span>Studio</button></nav>
+<div class="modal-backdrop" id="orderModal" role="dialog" aria-modal="true" aria-labelledby="orderTitle"><div class="modal"><button class="close" onclick="closeOrder()" aria-label="Close">×</button><h2 id="orderTitle">Reserve your find</h2><p id="orderSummary">Choose pickup or delivery.</p><div id="deliveryFields" style="display:none"><div class="field"><label>Delivery address <span style="color:#b64b43">*</span></label><textarea id="deliveryAddress" placeholder="Flat/house number, street, area, landmark"></textarea><div class="hint">Your address is required for local delivery and is used for this order only in this demo.</div></div><div class="field"><label>PIN code <span style="color:#b64b43">*</span></label><input id="deliveryPin" maxlength="6" inputmode="numeric" placeholder="6-digit PIN code"></div><div class="field"><label>Contact number <span style="color:#b64b43">*</span></label><input id="deliveryPhone" inputmode="tel" maxlength="10" placeholder="10-digit phone number"></div></div><div class="field"><label>Optional note</label><input id="orderNote" placeholder="Colour preference or pickup note"></div><div id="orderError" class="form-error"></div><button class="primary" onclick="confirmOrder()">Confirm order request</button><p class="status-line" style="margin-top:9px">Demo only: no payment or real delivery dispatch occurs.</p></div></div>
+</div>
+<script>
+const STORE={saved:'ah_saved_v1',bookings:'ah_bookings_v1',orders:'ah_orders_v1',reviews:'ah_reviews_v1',owner:'ah_owner_v1',fee:'ah_delivery_fee_v1',ownerPin:'ah_creator_login_pin_v1',servicePin:'ah_owner_service_pin_v1'};
+let creatorAuth=false;
+const get=(k,fallback=[])=>{try{return JSON.parse(localStorage.getItem(k))??fallback}catch{return fallback}};
+const put=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+let selectedRating=0,currentArtist='Deepa Beauty Parlour',currentService='Party makeup',currentPrice=900,selectedDay='',selectedTime='12:30 PM',orderDraft=null;
+function show(id){
+ // Keep navigation deterministic: show one section, then reset the document
+ // scroll position. Avoid scrollIntoView(), which can fight scrollTo on mobile.
+ if(id==='s8' && !creatorAuth){openWorkspace();return;}
+ const previous=document.querySelector('.screen.active');
+ const target=document.getElementById(id);
+ if(!target) return;
+ if(document.activeElement && previous && previous.contains(document.activeElement)) document.activeElement.blur();
+ document.querySelectorAll('.screen').forEach(section=>{
+   section.classList.remove('active');
+   section.scrollTop=0;
+ });
+ target.classList.add('active');
+ const nav=document.getElementById('bottomNav');
+ nav.classList.toggle('visible',!['s1','s3','s4','s5','s6','s11'].includes(id));
+ document.querySelectorAll('.nav-btn').forEach(button=>button.classList.toggle('active',button.dataset.page===id || (id==='s11' && button.dataset.page==='s8')));
+ const resetScroll=()=>{
+   target.scrollTop=0;
+   window.scrollTo({top:0,left:0,behavior:'auto'});
+   document.documentElement.scrollTop=0;
+   document.body.scrollTop=0;
+ };
+ // Reposition the newly active section as well as the document. This covers
+ // mobile browsers that restore a stale scroll offset after display changes.
+ resetScroll();
+ requestAnimationFrame(()=>{
+   target.scrollIntoView({block:'start',inline:'nearest',behavior:'auto'});
+   resetScroll();
+ });
+ setTimeout(resetScroll,80);
+ if(id==='s8')renderOwner();
+ if(id==='s9')renderSaved();
+ if(id==='s10')renderCustomerBookings();
+ if(id==='s4')renderReviews();
+}
+function start(){const n=document.getElementById('name').value.trim();const p=document.getElementById('pin').value.trim();if(!n){document.getElementById('name').focus();alert('Please enter your name to continue.');return}if(!/^\d{6}$/.test(p)){document.getElementById('pin').focus();alert('Please enter a valid 6-digit PIN code.');return}document.getElementById('hello').textContent=n;document.getElementById('avatar').textContent=n[0].toUpperCase();document.getElementById('pinShow').textContent=p;localStorage.setItem('ah_customer_name',n);localStorage.setItem('ah_customer_pin',p);const l=document.getElementById('loader'),m=document.getElementById('loadMsg');l.classList.add('show');m.textContent='Finding talented creators near you…';setTimeout(()=>m.textContent='Checking trusted local professionals…',600);setTimeout(()=>m.textContent='Bringing your neighborhood closer…',1200);setTimeout(()=>{l.classList.remove('show');show('s2')},1800)}
+function useLocationHint(){alert('Location access needs a secure hosted website and browser permission. For now, enter your 6-digit PIN code manually.');document.getElementById('pin').focus()}
+function artists(c){document.getElementById('categoryTitle').textContent=c;show('s3')}
+function products(){show('s7')} // Open the Glam Find storefront from discovery cards and profile links.
+function profile(a){currentArtist=a;document.getElementById('artistName').textContent=a;document.getElementById('bookingArtist').textContent=a;document.getElementById('successArtist').textContent=a;let names={'Deepa Beauty Parlour':'Beauty & styling · 1.2 km away','Maya Studio':'Makeup artist · 1.8 km away','Aarohi Designs':'Fashion designer · 2.4 km away','Sneha Style Studio':'Beauty · 2.1 km away'};document.getElementById('artistMeta')?.replaceChildren(document.createTextNode(names[a]||'Local creator near you'));put(STORE.recent,[a,...get('ah_recent',[]).filter(x=>x!==a)].slice(0,6));show('s4')}
+function updateService(){const [price,name]=document.getElementById('bookingService').value.split('|');currentService=name;currentPrice=Number(price)}
+function booking(){document.getElementById('bookingService').value='900|Party makeup';updateService();document.getElementById('bookingArtist').textContent=currentArtist;selectedDay='';selectedTime='12:30 PM';document.querySelectorAll('.time').forEach((b,i)=>b.classList.toggle('selected',i===1));show('s5')}
+function confirmBooking(){if(!selectedDay){alert('Please select an available date.');return}const pay=document.querySelector('input[name="pay"]:checked')?.value||'Pay after service';const booking={id:'AH'+Date.now(),client:localStorage.getItem('ah_customer_name')||'Guest customer',clientPin:localStorage.getItem('ah_customer_pin')||'',artist:currentArtist,service:currentService,price:currentPrice,date:selectedDay,time:selectedTime,payment:pay,status:'Requested',createdAt:Date.now()};const all=get(STORE.bookings);all.unshift(booking);put(STORE.bookings,all);document.getElementById('successArtist').textContent=currentArtist;document.getElementById('successDetails').textContent=`${currentService} · ₹${currentPrice} · ${selectedDay} at ${selectedTime}`;show('s6')}
+function navTo(id,button){show(id)}
+function openWorkspace(){prepareCreatorAccess();show('s11')}
+function prepareCreatorAccess(){
+ const isSetup=!localStorage.getItem(STORE.ownerPin);
+ document.getElementById('creatorAccessTitle').textContent=isSetup?'Set up Creator Space':'Creator sign in';
+ document.getElementById('creatorAccessHelp').textContent=isSetup?'Create a private 6-digit PIN for this creator workspace.':'Enter your creator PIN to open bookings and order requests.';
+ document.getElementById('creatorNameField').style.display=isSetup?'block':'none';
+ document.getElementById('creatorPinConfirmField').style.display=isSetup?'block':'none';
+ document.getElementById('creatorAccessButton').textContent=isSetup?'Create creator access':'Sign in to Creator Space';
+ document.getElementById('creatorAccessError').textContent='';
+ document.getElementById('creatorLoginName').value=localStorage.getItem(STORE.owner)||'';
+ document.getElementById('creatorLoginPin').value='';document.getElementById('creatorLoginPinConfirm').value='';
+}
+function creatorAccess(){
+ const isSetup=!localStorage.getItem(STORE.ownerPin),pin=document.getElementById('creatorLoginPin').value.trim();
+ const error=document.getElementById('creatorAccessError');error.textContent='';
+ if(!/^\d{6}$/.test(pin)){error.textContent='Enter a valid 6-digit PIN.';return;}
+ if(isSetup){const name=document.getElementById('creatorLoginName').value.trim(),confirm=document.getElementById('creatorLoginPinConfirm').value.trim();if(!name){error.textContent='Enter your studio or creator name.';return;}if(pin!==confirm){error.textContent='The PINs do not match.';return;}localStorage.setItem(STORE.owner,name);localStorage.setItem(STORE.ownerPin,pin);}
+ else if(pin!==localStorage.getItem(STORE.ownerPin)){error.textContent='That PIN is incorrect. Please try again.';return;}
+ creatorAuth=true;show('s8');
+}
+function creatorLogout(){creatorAuth=false;show('s2');}
+function save(button){const card=button.closest('.creator');const title=card?.querySelector('h3')?.textContent||'Local creator';let saved=get(STORE.saved);const exists=saved.some(x=>x.name===title&&x.type==='creator');saved=exists?saved.filter(x=>!(x.name===title&&x.type==='creator')):[{name:title,type:'creator'},...saved];put(STORE.saved,saved);button.textContent=exists?'♡':'♥';button.setAttribute('aria-label',exists?'Save creator':'Remove saved creator');button.style.color=exists?'':'#b75d52';}
+function saveProduct(name,button){let saved=get(STORE.saved);const exists=saved.some(x=>x.name===name&&x.type==='product');saved=exists?saved.filter(x=>!(x.name===name&&x.type==='product')):[{name,type:'product'},...saved];put(STORE.saved,saved);button.textContent=exists?'♡':'♥';button.style.color=exists?'':'#b75d52'}
+function renderSaved(){const list=document.getElementById('savedList'),saved=get(STORE.saved);list.innerHTML='';if(!saved.length){list.innerHTML='<div class="empty-state">Tap the ♡ on a creator or product to save it here.</div>';return}saved.forEach(item=>{const row=document.createElement('div');row.className='owner-action';const h=document.createElement('h3');h.textContent=(item.type==='product'?'🛍 ':'✦ ')+item.name;const p=document.createElement('p');p.textContent=item.type==='product'?'Saved from Glam Find':'Saved local creator';const b=document.createElement('button');b.className='small-btn';b.textContent='Remove';b.onclick=()=>{put(STORE.saved,get(STORE.saved).filter(x=>!(x.name===item.name&&x.type===item.type)));renderSaved()};row.append(h,p,b);list.append(row)})}
+function renderCustomerBookings(){const list=document.getElementById('customerBookings'),all=get(STORE.bookings);list.innerHTML='';if(!all.length){list.innerHTML='<div class="empty-state">You haven’t requested an appointment yet.</div>';return}all.forEach(b=>{const row=document.createElement('div');row.className='owner-action';row.innerHTML=`<span class="pill">${escapeHtml(b.status)}</span>`;const h=document.createElement('h3');h.textContent=b.artist;const p=document.createElement('p');p.textContent=`${b.service} · ₹${b.price}\n${b.date} · ${b.time} · ${b.payment}`;row.append(h,p);if(b.status==='Completed'){const btn=document.createElement('button');btn.className='small-btn';btn.textContent='Rate this creator';btn.onclick=()=>profile(b.artist);row.append(btn)}list.append(row)})}
+function setRating(n){selectedRating=n;document.querySelectorAll('.star-btn').forEach((b,i)=>b.classList.toggle('on',i<n))}
+function submitReview(){if(!selectedRating){alert('Please choose a star rating first.');return}const reviews=get(STORE.reviews);reviews.unshift({artist:currentArtist,rating:selectedRating,text:document.getElementById('reviewText').value.trim(),date:new Date().toLocaleDateString()});put(STORE.reviews,reviews);document.getElementById('reviewMessage').textContent='Thank you — your rating has been saved in this demo.';document.getElementById('reviewText').value='';selectedRating=0;setRating(0);renderReviews()}
+function renderReviews(){const list=document.getElementById('reviewList');if(!list)return;list.innerHTML='';get(STORE.reviews).filter(r=>r.artist===currentArtist).slice(0,5).forEach(r=>{const d=document.createElement('div');d.className='owner-action';const h=document.createElement('h3');h.textContent='★'.repeat(r.rating)+'☆'.repeat(5-r.rating)+' · '+r.date;const p=document.createElement('p');p.textContent=r.text||'Rating submitted';d.append(h,p);list.append(d)})}
+function openOrder(name,price,mode){orderDraft={name,price,mode};document.getElementById('orderTitle').textContent=mode==='delivery'?'Same-day local delivery':'Reserve for shop pickup';document.getElementById('orderSummary').textContent=`${name} · ₹${price}${mode==='delivery'?' · Delivery fee ₹'+(localStorage.getItem(STORE.fee)||30):' · No delivery address needed for pickup'}`;document.getElementById('deliveryFields').style.display=mode==='delivery'?'block':'none';document.getElementById('orderError').classList.remove('show');document.getElementById('deliveryAddress').value='';document.getElementById('deliveryPin').value='';document.getElementById('deliveryPhone').value='';document.getElementById('orderNote').value='';document.getElementById('orderModal').classList.add('show')}
+function closeOrder(){document.getElementById('orderModal').classList.remove('show');orderDraft=null}
+function confirmOrder(){if(!orderDraft)return;let address='',pin='',phone='';if(orderDraft.mode==='delivery'){address=document.getElementById('deliveryAddress').value.trim();pin=document.getElementById('deliveryPin').value.trim();phone=document.getElementById('deliveryPhone').value.trim();if(address.length<8||!/^\d{6}$/.test(pin)||!/^\d{10}$/.test(phone)){const e=document.getElementById('orderError');e.textContent='For delivery, enter a complete address, valid 6-digit PIN code and 10-digit contact number.';e.classList.add('show');return}}const order={id:'GF'+Date.now(),product:orderDraft.name,price:orderDraft.price,mode:orderDraft.mode,address,pin,phone,note:document.getElementById('orderNote').value.trim(),fee:orderDraft.mode==='delivery'?Number(localStorage.getItem(STORE.fee)||30):0,status:'Requested',createdAt:Date.now()};const all=get(STORE.orders);all.unshift(order);put(STORE.orders,all);closeOrder();alert(order.mode==='delivery'?'Delivery request saved. The shop owner can review it in Creator Space.':'Pickup reservation saved. The shop owner can review it in Creator Space.');}
+function saveOwnerProfile(){const n=document.getElementById('ownerName').value.trim();if(!n){alert('Enter your studio name.');return}localStorage.setItem(STORE.owner,n);alert('Studio name saved in this browser demo.');}
+function saveDeliveryFee(){const fee=Number(document.getElementById('deliveryFee').value);if(!Number.isFinite(fee)||fee<0){alert('Enter a valid non-negative delivery fee.');return}localStorage.setItem(STORE.fee,String(fee));document.getElementById('feeMessage').textContent=`Delivery fee saved: ₹${fee}`}
+function saveOwnerPin(){const pin=document.getElementById('ownerPin').value.trim();if(!/^\d{6}$/.test(pin)){alert('Enter a valid 6-digit business PIN code.');return}localStorage.setItem(STORE.ownerPin,pin);alert('Business PIN saved in this browser demo.')}
+function renderOwner(){const bookings=get(STORE.bookings),requests=bookings.filter(b=>b.status==='Requested'),confirmed=bookings.filter(b=>['Accepted','Confirmed'].includes(b.status));document.getElementById('ownerRequestCount').textContent=requests.length;document.getElementById('ownerBookingCount').textContent=confirmed.length;document.getElementById('ownerName').value=localStorage.getItem(STORE.owner)||'Deepa Beauty Parlour';document.getElementById('deliveryFee').value=localStorage.getItem(STORE.fee)||30;document.getElementById('ownerPin').value=localStorage.getItem(STORE.servicePin)||'';renderBookingList('ownerRequests',requests,true);renderBookingList('ownerSchedule',bookings.filter(b=>['Accepted','Confirmed','Completed'].includes(b.status)),false);renderOrderRequests()}
+function renderBookingList(id,items,actions){const el=document.getElementById(id);el.innerHTML='';if(!items.length){el.innerHTML='<div class="empty-state">Nothing here yet.</div>';return}items.forEach(b=>{const row=document.createElement('div');row.className='owner-action';const h=document.createElement('h3');h.textContent=`${b.client} · ${b.service}`;const p=document.createElement('p');p.textContent=`${b.date} · ${b.time} · ₹${b.price} · ${b.payment}`;const status=document.createElement('span');status.className='pill';status.textContent=b.status;row.append(status,h,p);if(actions){const wrap=document.createElement('div');wrap.className='owner-actions';const accept=document.createElement('button');accept.className='accept';accept.textContent='Accept & confirm';accept.onclick=()=>updateBooking(b.id,'Accepted');const decline=document.createElement('button');decline.textContent='Decline';decline.onclick=()=>updateBooking(b.id,'Declined');wrap.append(accept,decline);row.append(wrap)}else if(b.status==='Accepted'){const btn=document.createElement('button');btn.className='small-btn';btn.textContent='Mark completed';btn.onclick=()=>updateBooking(b.id,'Completed');row.append(btn)}el.append(row)})}
+function updateBooking(id,status){const all=get(STORE.bookings);const b=all.find(x=>x.id===id);if(b){b.status=status;put(STORE.bookings,all);renderOwner();renderCustomerBookings()}}
+function renderOrderRequests(){let host=document.getElementById('ownerOrderRequests');if(!host)return;host.innerHTML='';const orders=get(STORE.orders);if(!orders.length){host.innerHTML='<div class="empty-state">No Glam Find orders yet.</div>';return}orders.forEach(o=>{const row=document.createElement('div');row.className='owner-action';const h=document.createElement('h3');h.textContent=`${o.product} · ₹${o.price}`;const p=document.createElement('p');p.textContent=o.mode==='delivery'?`Delivery · ${o.address}, ${o.pin} · Phone ${o.phone} · Fee ₹${o.fee}`:'Pickup reservation · Customer will collect from shop';row.append(h,p);if(o.status==='Requested'){const btn=document.createElement('button');btn.className='small-btn';btn.textContent='Mark ready / accepted';btn.onclick=()=>{o.status='Accepted';put(STORE.orders,orders);renderOrderRequests()};row.append(btn)}else{const st=document.createElement('span');st.className='pill';st.textContent=o.status;row.append(st)}host.append(row)})}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+// Calendar always follows the current month; demo availability is shown for future dates.
+function buildCalendar(){const days=document.getElementById('days');days.innerHTML='';const now=new Date(),year=now.getFullYear(),month=now.getMonth();document.querySelector('.month span').textContent=now.toLocaleDateString(undefined,{month:'long',year:'numeric'});const offset=new Date(year,month,1).getDay();const count=new Date(year,month+1,0).getDate();for(let i=0;i<offset;i++){const blank=document.createElement('span');days.append(blank)}for(let i=1;i<=count;i++){const b=document.createElement('button');b.className='day';b.textContent=i;const d=new Date(year,month,i);if(d>=new Date(year,month,now.getDate()))b.classList.add('available');b.disabled=d<new Date(year,month,now.getDate());b.onclick=()=>{document.querySelectorAll('.day').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');selectedDay=d.toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'})};days.append(b)}}
+document.querySelectorAll('.time').forEach(b=>b.onclick=()=>{document.querySelectorAll('.time').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');selectedTime=b.textContent});
+document.getElementById('orderModal').addEventListener('click',e=>{if(e.target.id==='orderModal')closeOrder()});
+// Restore the sample customer profile and initialize interactive views.
+const storedName=localStorage.getItem('ah_customer_name');if(storedName){document.getElementById('hello').textContent=storedName;document.getElementById('avatar').textContent=storedName[0].toUpperCase();document.getElementById('name').value=storedName}const storedPin=localStorage.getItem('ah_customer_pin');if(storedPin){document.getElementById('pinShow').textContent=storedPin;document.getElementById('pin').value=storedPin}
+buildCalendar();renderReviews();
+</script>
+</body></html>
